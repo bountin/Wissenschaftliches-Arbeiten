@@ -125,7 +125,7 @@ The next logical step is to use propositional logic to express a single bid whic
 
 Still, neither with the first approach, nor with the OR-connected atomic bids, it is possible to express substitutabilities like ``Item A or Item B but not both''. One solution is to allow bids to be not only OR-linked but also XOR-linked. XOR bids together with OR bids can now express all possible and even most unusual bidding combinations.
 
-The implementation with both XOR and OR combinations still causes issues if one wants to construct bigger than usual bids. To ease the representation \cite{FLBS99} introduces dummy items which makes the use of XOR obsolete. The idea is that any XOR bid $\langle S_1, p_1 \rangle \ XOR \ \langle S_2, p_2 \rangle $ can be converted to the form $\langle S_1 \cup \{d_1\}, p_1 \rangle \ OR \ \langle S_2 \cup \{d_1\}, p_2 \rangle $ where $d_1$ is such a dummy object. Of course all dummy items of one bidder must be separated from the other bidders to prevent manipulation.
+The implementation with both XOR and OR combinations still causes issues if one wants to construct bigger than usual bids. To ease the representation \cite{FLBS99} introduces dummy items which makes the use of XOR obsolete. The idea is that any XOR bid $\langle S_1, p_1 \rangle \ XOR \ \langle S_2, p_2 \rangle $ can be converted to the form $\langle S_1 \cup \{d_1\}, p_1 \rangle \ OR \ \langle S_2 \cup \{d_1\}, p_2 \rangle $ where $d_1$ is such a dummy object. Each bidder is allowed to introduce such dummy items for the previous substitution. Of course all dummy items of one bidder must be separated from the other bidders' to prevent manipulation.
 
 \section{Computational Complexity}
 
