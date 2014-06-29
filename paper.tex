@@ -1,0 +1,166 @@
+\documentclass[a4paper]{paper}
+
+\usepackage[]{fullpage} % Smaller page margins
+\usepackage{geometry}
+\usepackage{pdflscape}
+
+\begin{document}
+
+\bibliographystyle{alpha}
+\nocite{*}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\newgeometry{margin=4cm}
+
+\begin{titlepage}
+\begin{center}
+
+\textsc{\\[3.0cm]\LARGE Vienna University of Technology }\\[1.5cm]
+
+\textsc{\Large Wissenschaftliches Arbeiten \\[0cm] dbai \\[0.3cm] Summer Term 2014}\\[0.5cm]
+
+% Title
+\HRule \\[0.4cm]
+{ \huge \bfseries Combinatorial Auctions\\[0.4cm] }
+
+\HRule \\[1.5cm]
+
+\large
+Martin \textsc{Prebio}\\1025737
+\vfill
+
+{\large \today}
+
+\end{center}
+\end{titlepage}
+\restoregeometry
+
+\section*{Abstract}
+In an auction where several goods are sold and bought at a time it is sometimes desirable to place bids that specify not only one object alone but a bundle of them. With this mechanism one can express their wish to order ``this or that but not both'' or ``only the two together'' or even more complex expressions.
+
+First we will give a small introduction to social choice theory in general, then explain the above mentioned combinatorial auctions in detail including a discussion about the used logical expression languages. After that we will have a look at the computational complexity that is involved when an auction system has to decide who has won which object and at what price. Finally some real world examples are given together with an outlook to future research.
+
+\newpage
+
+\section{Introduction}
+
+\subsection{Social Choice Theory and Computer Sciences}
+The main topic of social choice theory is to aggregate preferences of several agents together. The most commonly known example for such an aggregation are parliament elections where voters cast their vote for a political party or person in order to collectively choose a representation or a representative.
+
+Social choice theory started in the fields of economics and political sciences but computer sciences also discovered it. Especially in the area of artificial intelligence, where it used to build better protocols and decision algorithms for artificial agents in order to improve fairness between them or to optimize existing protocols. 
+
+There are also problems in social choice theory which can be solved or at least improved by the support of computer sciences. For example one enhancement tries to make cheating in collective decision making harder by increasing its computational complexity and therefore manipulation costs. The application of computer power also simplifies the work spent on the evaluation of the individual opinions to the collective one.
+
+\subsection{Preference Aggregation}
+
+The prerequisite for the following sub fields of social choice theory is the one of preference aggregation. It tries to formalize the given choices together with the agents' preferences and aggregate them together to a single preference. The formalization also differs from study object to study object. For instance when eating out with colleagues and trying to compromise on a restaurant you can choose in two ways: Either each quantifies each location with a number for his or her preference. This would be a cardinal preference. In contrast a qualitative approach is used when each compiles an order which then would be ordinal preferences.~\cite[Chapter~2]{BCE12}
+
+\subsection{Voting theory}
+
+As already outlined in the introductory example, one main part of social choice theory is voting theory. In contrast to preference aggregation, this topic concentrates on combining the individual opinions together to a single collective one which then should represent the whole group.
+
+Following the previous restaurant example, the colleagues and you could agree to go to that restaurant that has the most ``Number 1'' votes. This kind of vote system is called ``Plurality Vote''. Alternatively the restaurant that got the least ``Absolutely Not'' votes, could also be chosen which is called ``Anti-Plurality Vote''.
+
+All those technique has their advantages and disadvantages in terms of fairness and protection from manipulations which are subject to voting theory too.~\cite[Chapter~3]{BCE12}
+
+\subsection{Fair division}
+
+Another field of social choice theory is fair division, which tries to allocate resources on multiple agents in the best way. Of course the quality of ``best'' is not always the same and depends on the concrete setup.
+
+Following the restaurant example your colleagues and you have chosen a Japanese restaurant and ordered a big plate of sushi. The question is now who will receive which piece. There are many constraints that should be fulfilled: First of all the overall happiness should be as big as possible. In other words the sum of all utilities should be maximized. But this allocation is not guaranteed to be fair if every eater is hungry and could eat the whole plate alone.
+
+There is also the criteria of envy-freeness where everyone should receive a selection so that he or she does not want to switch it with the selection of one the others. Another fairness criteria could be that the minimum utility is maximized. This also leads to a more equal allocation which for instance is an important allocation strategy for political decisions and better suited than maximizing the overall utility.~\cite[Chapter~5]{BCE12}
+
+\subsection{Combinatorial Domains}
+
+So far we have presented some different areas of social choice theory but in order to understand the topic of this paper - Combinatorial Auctions - we also have to explain the background of combinatorial domains in general.
+
+Once again -- to demonstrate the core of combinatorial domains -- a restaurant example: This time the topic is the ordering and the colleagues have to choose from a starter, a main dish and a wine. They all will only get what they have voted for. Imagine that they follow the given order and are in the process to vote about the starter. One of them has no preference of the wine type but only wants to eat fish as main course if white wine is chosen. Also he or she has a preference for fish as main course and does not have a clue what type of wine the others will choose.\footnote{They are not allowed to communicate for the example's sake.} In that situation he or she can choose to risk the fish main course and be disappointed if red wine is chosen or be on the safe side and be a bit mad when white wine is chosen after all. 
+
+Even in this simple example dissatisfaction will be present. The optimal solution would be to change the voting system to support combinatorial votes which for instance allows the above described wishes.
+
+In general the use of combinatorial domains adds much complexity to a system but also increases the overall satisfaction of its users because they have more and better opportunities.
+
+\section{Classic Auction Models}
+
+The Oxford Dictionary defines auction as ``a public sale in which goods or property are sold to the highest bidder.''~\cite{OD:auction} 
+In classic non-combinatorial auction models each bid specifies an item and a price the bidder is willing to pay but they are not able to bid for two or more items together in a bundle. This is sometimes necessary if the first item is useless without the other one, for instance if one is buying shoes he or she will always want a left and a right shoe.
+
+Another use case they can not express is to buy either one or the other item but not both. An economist would describe this as two substitute goods. A simple example for this is when you want to buy a ticket from Vienna to Munich but you do not care if you are going by train or by plane.
+
+In his introduction \cite{San02} lists two different types of classic auctions: sequential and parallel ones.
+
+The simplest auction is the sequential one where the items are sold in a certain order one by one and every time the highest bid wins. The iconic picture of an art auction is a perfect example for this kind of auction. The major drawback is that a buyer who, for instance, wants to buy two items $g_1$ and $g_2$ together has to speculate about the future. At the time $g_1$ is auctioned he has to estimate at what price $g_2$ might be sold and if the total amount for $g_1$ and $g_2$ is below his personal price limit.
+
+Another issue with this kind of auction is that if someone's primary goal is one item and its price is rising too high he or she may be also satisfied with an other item instead. Again, this case is not possible in sequential auctions without speculation.
+
+An attempt to solve the problems attached to sequential auctions is to auction each item in parallel. The advantage of this approach is that a bidder can see how others value the auctioned goods and then can bid more than their rivals as long as this does not exceed their personal value of the bundle. But this just fixes a problem by creating a new one: Now everyone will wait for the bids of the others in order to optimize their own ones.
+
+Again there have been several attempts to fix these flaws: At first rules were introduced to force activity of the bidders. For example the auctioneer stopped the auction if no more bids were incoming during a time frame. Another possibility is to penalize bidders who only watch and bid in the end. But still the outcome is not the theoretical optimal solution because the bidders still have to take assumptions and speculate on the outcome.
+
+To fix those drawbacks the classic auction system can be extended by a weaker kind of commitment: options. When one buys an option he or she can still bid but has the right to revoke their bid. Of course the cost of an option must be higher than zero because otherwise everyone will just buy and use them for every single item and therefore nullify their positive effect. Another form of this weak commitment allows everyone to take back their own bids by paying the difference to the second best.~\cite[Chapter~1.3]{San02}
+
+All of the discussed models are not perfect for bundle bidding and the resolutions sill have flaws. In the end it would be preferable to have the possibility for expressing bundle wishes directly in the used auction system.
+
+\section{Combinatorial Auction Models}
+
+The best way to overcome the previously explained flaws in non-combinatorial auctions is to allow the bidders to express their combinatorial bids directly in the auction system. Such auctions are called combinatorial auctions. They allow to bid for different logical combinations of items like AND or XOR depending what system the auctioneer has chosen. Some of these bidding language considerations will be discussed in the next section together with their pros and cons.
+
+First we want to formalize the setup: Following the notation of \cite[chapter~2]{BH01} a seller or an auction house wants to auction a set of $n$ indivisible goods $G = {g_1, ..., g_n}$. Every interested or authorized bidder can offer bids of the form $<b, p>$ where $b$ represents the bundle configuration and $p$ the price they are willing to pay.
+
+When the offer phase is completed the seller has a set of all bids $B = {<b_i,p_i>}$. From this set they chose that subset of them which maximizes profit and is satisfiable. In essence satisfiability means that the same good can not be sold more than once. Profit maximization computes for each satisfiable allocation $L \subset B$ the total value $v(L) = \sum \{p_i : <b_i,p_i> \subset L\}$ and chooses the maximum.\footnote{As explained in the first section there may be other objectives beside or instead of profit maximization in the auction but in commercial auctions the auctioneer's revenue is the main goal. So we will not provide further details for these expansions.}
+
+\section{Bidding Representations \& Languages}
+
+In this section we will have a look at the different considerations that have to be taken into account when choosing a language of bidding bundles. 
+
+A very naive start is to let every bidder define a price for each possible subset of the available goods. The necessary considerations and calculations are doable for a small set but its complexity and size grows exponential, even if the client only wants to bid for a few items and is therefore not suitable for real world applications.
+
+The next logical step is to use propositional logic to express a single bid which is a compressed form of the former representation that can be converted into each other in a bidirectional manner. Another improvement here is that the ``Closed World Assumption'' is used and therefore all options which are not interesting for a bidder are omitted. For a participant who wants to bid for a single bundle in an auction of one hundred items this means he only has to submit one single bid instead of $2^{100}$. \footnote{A set has $2^m$ subsets where m is the mightiness of the set.}
+
+\cite{Nis00} calls this smallest possible bid of AND-connected items an ``atomic bid'' and also adds that if someone is willing to pay a price $p$ for a set $S$ of items they must also be willing to pay at least $p$ for any set $T$ with $S \subseteq T$. To be equivalent to the naive form these atomic bid must also be OR-conjunctional so that a bidder can submit several bundle he or she wants to bid for. Such bids can look like the fooling example: $\{<\{a\},1>,<\{b\},2>,<\{a,b\},4>\}$
+
+Still, neither with the first approach, nor with the OR-connected atomic bids, it is possible to express substitutabilities like ``Item A or Item B but not both''. One solution is to allow bids to be not only OR-linked but also XOR-linked. XOR bids together with OR bids can now express all possible and even most unusual bidding combinations.
+
+The implementation with both XOR and OR combinations still causes issues if one wants to construct bigger than usual bids. To ease the representation \cite{FLBS99} introduces dummy items which makes the use of XOR obsolete. The idea is that any XOR bid $<S_1,p_1> XOR <S_2, p_2>$ can be converted to the form $<S_1 \cup \{d_1\}, p_1> OR <S_2 \cup \{d_1\}, p_2>$ where $d_1$ is such a dummy object. Of course all dummy items of one bidder must be separated from the other bidders to prevent manipulation.
+
+\section{Computational Complexity}
+
+In non-combinatorial auctions it's easy to determine the winners of the auctioned items. The auctioneer only has to find the highest bid for each item which can be done in $\mathcal O(b * n)$ where b is the number of bidders and n the number of goods.
+
+At combinatorial auctions this task becomes much more cumbersome because each combination of bids $S \subseteq G$ must be tested against. \cite[pp.~46--47]{BCE12} shows that this ``Winner Determination Problem'' can be converted into the ``Set Packing Problem'' which is known to be NP-hard.
+
+\cite[Chapter~2]{San02} lists some possible algorithms for solving that problem. The first proposed technique is an enumeration of all possible exhaustive partitions of the available items but that solution does not scale beyond a hand full of goods. Its upper limit is $\mathcal O(n^n)$. Another exact solution which performs much better is the use of dynamic programming for which \cite[Chapter~2.2]{San02} provides an algorithm with $\mathcal O(3^n)$.
+
+\cite{Nis00} also suggests to use linear programming together with a greedy algorithm combined in a branch-and-bound algorithm but does not provide efficiency numbers.
+
+Independent from those solutions one can also restrict the format of bids to ease the winner determination calculations. For instance if the length of bids is limited better performing algorithms can be used. Another restriction is to establish an order of items and then only allow bidding on consecutive items. With this limit algorithms can determine the winners in polynomial time.
+
+All in all the auctioneer has to decide which compromise between computational speed and language possibilities they want to have.
+
+\section{Practical Use}
+
+During the previous section some small examples were already given but the following ones will go a bit deeper into real work applications.
+
+\subsection{Spectrum Auctions}
+\cite[p.~269]{BN07}~mentions the use of combinatorial auctions when the state assigns a country's frequency licenses. They grant companies the right to use a particular frequency range in a geographical area. Without them no telecom provider could provide cell-phone and mobile internet services. Here it is especially important that the companies can express their wishes in a combinatorial way because for a national provider's coverage it does not make sense to have several licenses in one area and no one in another.
+
+Just recently in October 2013 the Austrian telecom regulator hold a spectrum auction where a type of combinatorial auction has been used. In that auction more than two billion euro have been raised for the licensed bands. The auction also contained additional constraints to prevent monopolies and support market entrees.~\cite{RTR:Telecom}
+
+\subsection{Transportation Market}
+\cite{CELM07}~had a look at the American truckload transportation market during the late 1990s and early 2000s. In this business more and more combinatorial auctions are used to cut drives without load and increase competitiveness.
+
+They see several topics for future research in this area. The first is a non technical but more a psychological one: A deeper analysis of bidding behaviors of the auction participants answering the question why combinatorial auctions are not as much used as one could expect. They think that after further investigation the auction setup and its rules can be improved in this specialized branch.
+
+On the other hand a drawback of the currently used technical systems is the fact that normally only one seller or buyer is offering their services. With a bigger centralized combinatorial exchange more services could be handled and optimized. There have been several tries to implement such places but the attempts were not as successful as expected.
+
+At last the focus of the currently used models lies on the reduction of prices but this is only one factor that is important for a business relationship. As already above mentioned further constraints should be applied to the auctions to target risk reduction and trust into the system. Additionally such a system must also provide redundancy if for instance one of the truck companies goes bankrupt. 
+
+\section{Conclusion}
+
+In this paper a short overview of social choice theory was given paired with the reasons why it is relevant to computer sciences. Then the main topic of this paper is introduced by showing the differences between non-combinatorial auctions and combinatorial ones. Furthermore the overall motivation behind the topic is presented. Additionally considerations about representation, formalization and algorithmic complexity are given, closing with two real world applications. 
+
+\bibliography{paper}
+
+\end{document}
