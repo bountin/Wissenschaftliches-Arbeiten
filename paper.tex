@@ -109,7 +109,7 @@ The best way to overcome the previously explained flaws in non-combinatorial auc
 
 First we want to formalize the setup: Following the notation of \cite[chapter~2]{BH01} a seller or an auction house wants to auction a set of $n$ indivisible goods $G = {g_1, ..., g_n}$. Every interested or authorized bidder can offer bids of the form $<b, p>$ where $b$ represents the bundle configuration and $p$ the price they are willing to pay.
 
-When the offer phase is completed the seller has a set of all bids $B = {<b_i,p_i>}$. From this set they chose that subset of them which maximizes profit and is satisfiable. In essence satisfiability means that the same good cannot be sold more than once. Profit maximization computes for each satisfiable allocation $L \subset B$ the total value $v(L) = \sum \{p_i : <b_i,p_i> \subset L\}$ and chooses the maximum.\footnote{As explained in the first section there may be other objectives beside or instead of profit maximization in the auction but in commercial auctions the auctioneer's revenue is the main goal. So we will not provide further details for these expansions.}
+When the offer phase is completed the seller has a set of all bids $B = {<b_i,p_i>}$. From this set they choose that subset of them which maximizes profit and is satisfiable. In essence satisfiability means that the same good cannot be sold more than once. Profit maximization computes for each satisfiable allocation $L \subset B$ the total value $v(L) = \sum \{p_i : <b_i,p_i> \subset L\}$ and chooses the maximum.\footnote{As explained in the first section there may be other objectives beside or instead of profit maximization in the auction but in commercial auctions the auctioneer's revenue is the main goal. So we will not provide further details for these expansions.}
 
 \section{Bidding Representations \& Languages}
 
@@ -119,7 +119,7 @@ A very naive start is to let every bidder define a price for each possible subse
 
 The next logical step is to use propositional logic to express a single bid which is a compressed form of the former representation that can be converted into each other in a bidirectional manner. Another improvement here is that the ``Closed World Assumption'' is used and therefore all options which are not interesting for a bidder are omitted. For a participant who wants to bid for a single bundle in an auction of one hundred items this means he only has to submit one single bid instead of $2^{100}$. \footnote{A set has $2^m$ subsets where m is the mightiness of the set.}
 
-\cite{Nis00} calls this smallest possible bid of AND-connected items an ``atomic bid'' and also adds that if someone is willing to pay a price $p$ for a set $S$ of items they must also be willing to pay at least $p$ for any set $T$ with $S \subseteq T$. To be equivalent to the naive form these atomic bid must also be OR-conjunctional so that a bidder can submit several bundle he or she wants to bid for. Such bids can look like the fooling example: $\{<\{a\},1>,<\{b\},2>,<\{a,b\},4>\}$
+\cite{Nis00} calls this smallest possible bid of AND-connected items an ``atomic bid'' and also adds that if someone is willing to pay a price $p$ for a set $S$ of items they must also be willing to pay at least $p$ for any set $T$ with $S \subseteq T$. To be equivalent to the naive form these atomic bid must also be OR-conjunctional so that a bidder can submit several bundles he or she wants to bid for. Such bids can look like the fooling example: $\{<\{a\},1>,<\{b\},2>,<\{a,b\},4>\}$
 
 Still, neither with the first approach, nor with the OR-connected atomic bids, it is possible to express substitutabilities like ``Item A or Item B but not both''. One solution is to allow bids to be not only OR-linked but also XOR-linked. XOR bids together with OR bids can now express all possible and even most unusual bidding combinations.
 
@@ -141,7 +141,7 @@ All in all the auctioneer has to decide which compromise between computational s
 
 \section{Practical Use}
 
-During the previous section some small examples were already given but the following ones will go a bit deeper into real work applications.
+During the previous section some small examples were already given but the following ones will go a bit deeper into real world applications.
 
 \subsection{Spectrum Auctions}
 \cite[p.~269]{BN07}~mentions the use of combinatorial auctions when the state assigns a country's frequency licenses. They grant companies the right to use a particular frequency range in a geographical area. Without them no telecom provider could provide cell-phone and mobile internet services. Here it is especially important that the companies can express their wishes in a combinatorial way because for a national provider's coverage it does not make sense to have several licenses in one area and no one in another.
