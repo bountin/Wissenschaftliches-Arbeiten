@@ -133,7 +133,7 @@ In non-combinatorial auctions it's easy to determine the winners of the auctione
 
 At combinatorial auctions this task becomes much more cumbersome because each combination of bids $S \subseteq G$ must be tested against. \cite[pp.~46--47]{BCE12} shows that the known ``Set Packing Problem'' can be converted to this ``Winner Determination Problem''. The ``Set Packing Problem'' is known to be NP-complete and so the ``Winner Determination Problem'' is also NP-complete.
 
-\cite[Chapter~2]{San02} lists some possible algorithms for solving that problem. The first proposed technique is an enumeration of all possible exhaustive partitions of the available items but that solution does not scale beyond a hand full of goods. Its upper limit is $\mathcal O(n^n)$. Another exact solution which performs much better is the use of dynamic programming for which \cite[Chapter~2.2]{San02} provides an algorithm with $\mathcal O(3^n)$.
+\cite[Chapter~2]{San02} lists some possible algorithms for solving that problem. The first proposed technique is an enumeration of all possible exhaustive partitions of the available items but that solution does not scale beyond a hand full of goods. Its upper limit is $\mathcal O(n^n)$, with $n$ being the amount of auctioned goods. Another exact solution which performs much better is the use of dynamic programming for which \cite[Chapter~2.2]{San02} provides an algorithm with $\mathcal O(3^n)$.
 
 \cite{Nis00} also suggests to use linear programming together with a greedy algorithm combined in a branch-and-bound algorithm but does not provide efficiency numbers.
 
